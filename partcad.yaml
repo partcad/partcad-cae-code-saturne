@@ -3,7 +3,7 @@
 # The structure is identical to `//builtin/export` and `//builtin/render` -- see
 # `docs/source/config_output.rst` in the `partcad` repository for what each field
 # means. What makes it an analysis is the section it is declared in: `cae:`. It
-# writes binary glTF, the result being a 3D field the PartCAD Viewer turns and
+# writes binary glTF, the result being a 3D field the Digital Thread turns and
 # zooms, and answers with `findings` beside it: an empty list is a pass, and is
 # what `pc test` requires.
 
