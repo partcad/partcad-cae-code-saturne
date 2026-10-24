@@ -8,14 +8,15 @@ pc cae cfd -i //pub/feature/cae/code_saturne:cfd :pipe
 pc test -f cfd
 ```
 
-or name it for a part with `implementation:` in the part's `cfd:` section, or for everything with the
+or name it for one of a part's `cfd:` scenarios with `implementation:` in it, or for everything with the
 `caeCfdImplementation` user configuration option.
 
 ## What it computes
 
-The part is read as the **fluid volume**. Its `cfd:` section says where the flow goes in and out, on ports
-whose sketches are the surfaces meant -- PartCAD imprints each port's sketch on the part before this package
-runs and hands it the faces each covers:
+The part is read as the **fluid volume**. Its `cfd:` section is a map of named scenarios (each run, or one
+with `-f <scenario>`), each saying where the flow goes in and out, on ports whose sketches are the surfaces
+meant -- PartCAD imprints each port's sketch on the part before this package runs and hands it the faces each
+covers:
 
 ```yaml
 parts:
@@ -25,10 +26,11 @@ parts:
       pipe-inlet: [[0, 0, -50], [0, 0, 1], 0]
       pipe-outlet: [[0, 0, 50], [0, 0, 1], 0]
     cfd:
-      load:
-        pipe-inlet: 0.005 N  # what drives the flow in
-      outlet:
-        - pipe-outlet        # where it leaves
+      poiseuille:
+        load:
+          pipe-inlet: 0.005 N  # what drives the flow in
+        outlet:
+          - pipe-outlet        # where it leaves
 ```
 
 * **Inlets** are the ports under `load:`. The flow is drawn in from a reservoir at rest whose pressure is the
@@ -65,8 +67,8 @@ written relative to it.
 4. `code_saturne run` runs it. The flow rate is code_saturne's own mass flux through the outlets, from its
    log; the fields come back as EnSight Gold in its ASCII form, read here with plain text parsing.
 
-What comes back is `<part>.cfd.glb`, the boundary coloured by the pressure in the cell behind each face; a
-measurement line in the log -- flow rate, mean outlet speed, peak speed, Reynolds number, the driving
+What comes back is `<part>.cfd.<scenario>.glb`, the boundary coloured by the pressure in the cell behind each
+face; a measurement line in the log -- flow rate, mean outlet speed, peak speed, Reynolds number, the driving
 pressure, element count -- and **findings**, which fail `pc test`: a flow whose residuals did not fall by
 `residual_drop` within `iterations` steps, a Reynolds number past 2300 (where this laminar analysis stops
 applying), a speed past `max_velocity`, a flow rate short of `min_flow_rate` when that is set, and any
