@@ -5,7 +5,7 @@ Steady, laminar, incompressible flow analysis for [PartCAD](https://github.com/p
 
 ```shell
 pc cae cfd -i //pub/feature/cae/code_saturne:cfd :pipe
-pc test -f cfd
+pc qual test -f cfd
 ```
 
 or name it for a part with `implementation:` in the part's `cfd:` section, or for everything with the
@@ -67,10 +67,10 @@ written relative to it.
 
 What comes back is `<part>.cfd.glb`, the boundary coloured by the pressure in the cell behind each face; a
 measurement line in the log -- flow rate, mean outlet speed, peak speed, Reynolds number, the driving
-pressure, element count -- and **findings**, which fail `pc test`: a flow whose residuals did not fall by
-`residual_drop` within `iterations` steps, a Reynolds number past 2300 (where this laminar analysis stops
-applying), a speed past `max_velocity`, a flow rate short of `min_flow_rate` when that is set, and any
-condition whose port covers no surface.
+pressure, element count -- and **findings**, which fail `pc qual test`: a flow whose residuals did not
+fall by `residual_drop` within `iterations` steps, a Reynolds number past 2300 (where this laminar
+analysis stops applying), a speed past `max_velocity`, a flow rate short of `min_flow_rate` when that is
+set, and any condition whose port covers no surface.
 
 ### Measured
 
