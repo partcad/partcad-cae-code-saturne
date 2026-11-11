@@ -47,6 +47,11 @@ cae:
 
     # The fluid: air at 20 degrees. kg/m^3, and the dynamic viscosity in Pa*s.
     # Note the signed exponent: YAML 1.1 reads `1.82e-5` as a string.
+    # A part made of a fluid -- a material that states a `viscosity`, such as
+    # //pub/std/manufacturing/material/fluid:water -- is solved as that fluid
+    # instead: PartCAD hands this script its `density` and `viscosity`. A part
+    # made of anything else hands a fluid analysis nothing, since the part is
+    # meshed as the fluid in it and its own density is not that fluid's.
     density: 1.204
     viscosity: 1.82e-5
 
